@@ -7,7 +7,7 @@ Standalone Godot 4.6 sky and weather system extracted from the Densetsu project.
 - Seasonal weather selection and blending
 - Cloud layer resources and compositing helpers
 - Optional weather particle scene example
-- Standalone demo scene at `engine3d/tests/Mesh Tester.tscn`
+- Standalone demo scene at `demo/sky_system_demo.tscn`
 
 ## Contents
 - `engine3d/sky`
@@ -30,7 +30,7 @@ Standalone Godot 4.6 sky and weather system extracted from the Densetsu project.
 
 ## Quick Start
 1. Open the repo as a Godot project.
-2. Run `engine3d/tests/Mesh Tester.tscn`.
+2. Run `demo/sky_system_demo.tscn`.
 3. Inspect the `DensetsuSkySystem3D` node in the scene.
 4. Point it at your own `WorldEnvironment`, sun light, and moon light if you want to reuse it in another project.
 

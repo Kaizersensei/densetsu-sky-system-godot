@@ -2,5 +2,5 @@
 config_version=5
 [application]
 config/name="Densetsu Sky System"
-run/main_scene="res://engine3d/tests/Mesh Tester.tscn"
+run/main_scene="res://demo/sky_system_demo.tscn"
 config/features=PackedStringArray("4.6")
