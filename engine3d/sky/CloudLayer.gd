@@ -1,6 +1,6 @@
 @tool
 extends Resource
-class_name DensetsuCloudLayer
+class_name CloudLayer
 
 ## Enables this cloud layer in the compositor stack.
 @export var enabled: bool = true

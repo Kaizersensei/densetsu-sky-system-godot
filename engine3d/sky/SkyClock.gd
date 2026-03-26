@@ -1,6 +1,6 @@
 @tool
 extends Node
-class_name DensetsuSkyClock
+class_name SkyClock
 
 signal datetime_changed(year: int, month: int, day: int, hour: int, minute: int, second: int)
 signal time_hours_changed(time_hours: float)

@@ -1,9 +1,9 @@
 @tool
 extends Resource
-class_name DensetsuWeatherCondition
+class_name WeatherCondition
 
 @export_group("Identity")
-## Stable ID used by DensetsuSkySystem3D.active_weather_id.
+## Stable ID used by SkyWeatherSystem3D.active_weather_id.
 @export var weather_id: String = "clear"
 ## Optional display label for tools/UI.
 @export var display_name: String = "Clear"
@@ -11,7 +11,7 @@ class_name DensetsuWeatherCondition
 @export var ui_icon: Texture2D
 ## Enables/disables this weather condition for automatic selection.
 @export var auto_enabled: bool = true
-## Optional weather group ID used by DensetsuSkySystem3D group-based selection.
+## Optional weather group ID used by SkyWeatherSystem3D group-based selection.
 @export var weather_group_id: String = "default"
 
 @export_group("Auto Selection")

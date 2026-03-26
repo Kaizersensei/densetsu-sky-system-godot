@@ -1,11 +1,11 @@
 @tool
 extends Node3D
-class_name DensetsuSkySystem3D
+class_name SkyWeatherSystem3D
 
-const CloudLayerResource = preload("res://engine3d/sky/DensetsuCloudLayer.gd")
-const WeatherConditionResource = preload("res://engine3d/sky/DensetsuWeatherCondition.gd")
-const WeatherGroupResource = preload("res://engine3d/sky/DensetsuWeatherGroup.gd")
-const SkyClockResource = preload("res://engine3d/sky/DensetsuSkyClock.gd")
+const CloudLayerResource = preload("res://engine3d/sky/CloudLayer.gd")
+const WeatherConditionResource = preload("res://engine3d/sky/WeatherCondition.gd")
+const WeatherGroupResource = preload("res://engine3d/sky/WeatherGroup.gd")
+const SkyClockResource = preload("res://engine3d/sky/SkyClock.gd")
 const SKY_SHADER_PATH: String = "res://shaders/sky/densetsu_sky.gdshader"
 const CLOUD_BASE_MATERIAL_ADAPTER_SHADER_PATH: String = "res://shaders/sky/cloud_layer_base_material_adapter.gdshader"
 const CLOUD_VIEWPORT_NODE_NAME: String = "_CloudCompositeViewport"
@@ -39,13 +39,13 @@ const SKY_DEBUG_UI_LAYER_NODE_NAME: String = "_SkyDebugUI"
 @export var weather_camera_path: NodePath = NodePath("")
 ## Finds WorldEnvironment/DirectionalLight3D automatically when paths fail.
 @export var auto_find_targets: bool = true
-## Replaces Environment.sky with the Densetsu sky material.
+## Replaces Environment.sky with the sky material.
 @export var apply_sky_to_environment: bool = true
 
 @export_group("Clock Source")
-## Path to DensetsuSkyClock node.
+## Path to SkyClock node.
 @export var clock_path: NodePath = NodePath("Clock")
-## Creates a child DensetsuSkyClock if missing.
+## Creates a child SkyClock if missing.
 @export var auto_create_clock: bool = true
 ## Uses clock time instead of manual_time_hours.
 @export var use_clock_time: bool = true
@@ -53,25 +53,25 @@ const SKY_DEBUG_UI_LAYER_NODE_NAME: String = "_SkyDebugUI"
 @export_range(0.0, 24.0, 0.001) var manual_time_hours: float = 12.0
 
 @export_group("Clock Controls")
-## Mirrors DensetsuSkyClock.running for top-level control.
+## Mirrors SkyClock.running for top-level control.
 @export var clock_running: bool = true
-## Mirrors DensetsuSkyClock.editor_preview.
+## Mirrors SkyClock.editor_preview.
 @export var clock_editor_preview: bool = false
-## Mirrors DensetsuSkyClock.minutes_per_real_second.
+## Mirrors SkyClock.minutes_per_real_second.
 @export_range(0.0, 1200.0, 0.01) var clock_minutes_per_real_second: float = 10.0
-## Mirrors DensetsuSkyClock.year.
+## Mirrors SkyClock.year.
 @export var clock_year: int = 1
-## Mirrors DensetsuSkyClock.month.
+## Mirrors SkyClock.month.
 @export_range(1, 12, 1) var clock_month: int = 1
-## Mirrors DensetsuSkyClock.day.
+## Mirrors SkyClock.day.
 @export_range(1, 31, 1) var clock_day: int = 1
-## Mirrors DensetsuSkyClock.month_lengths.
+## Mirrors SkyClock.month_lengths.
 @export var clock_month_lengths: PackedInt32Array = PackedInt32Array([31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31])
-## Mirrors DensetsuSkyClock.hour.
+## Mirrors SkyClock.hour.
 @export_range(0, 23, 1) var clock_hour: int = 12
-## Mirrors DensetsuSkyClock.minute.
+## Mirrors SkyClock.minute.
 @export_range(0, 59, 1) var clock_minute: int = 0
-## Mirrors DensetsuSkyClock.second.
+## Mirrors SkyClock.second.
 @export_range(0, 59, 1) var clock_second: int = 0
 
 @export_group("Preview")
@@ -626,22 +626,22 @@ func _find_first_camera(node: Node) -> Camera3D:
 func _validate_explicit_targets() -> void:
 	if _world_environment != null and not _is_valid_world_environment_target(_world_environment):
 		if not _warned_invalid_world_environment_target:
-			push_warning("DensetsuSkySystem3D: world_environment_path resolved to an internal helper node. Ignoring it.")
+			push_warning("SkyWeatherSystem3D: world_environment_path resolved to an internal helper node. Ignoring it.")
 			_warned_invalid_world_environment_target = true
 		_world_environment = null
 	if _sun_light != null and not _is_valid_directional_light_target(_sun_light):
 		if not _warned_invalid_sun_light_target:
-			push_warning("DensetsuSkySystem3D: sun_light_path resolved to an internal helper light/subviewport light. Ignoring it.")
+			push_warning("SkyWeatherSystem3D: sun_light_path resolved to an internal helper light/subviewport light. Ignoring it.")
 			_warned_invalid_sun_light_target = true
 		_sun_light = null
 	if _moon_light != null and not _is_valid_directional_light_target(_moon_light):
 		if not _warned_invalid_moon_light_target:
-			push_warning("DensetsuSkySystem3D: moon_light_path resolved to an internal helper light/subviewport light. Ignoring it.")
+			push_warning("SkyWeatherSystem3D: moon_light_path resolved to an internal helper light/subviewport light. Ignoring it.")
 			_warned_invalid_moon_light_target = true
 		_moon_light = null
 	if _weather_camera != null and not _is_valid_weather_camera_target(_weather_camera):
 		if not _warned_invalid_weather_camera_target:
-			push_warning("DensetsuSkySystem3D: weather_camera_path resolved to an internal helper/subviewport camera. Ignoring it.")
+			push_warning("SkyWeatherSystem3D: weather_camera_path resolved to an internal helper/subviewport camera. Ignoring it.")
 			_warned_invalid_weather_camera_target = true
 		_weather_camera = null
 
@@ -880,7 +880,7 @@ func _ensure_moon_surface() -> void:
 	var is_spatial_material: bool = _is_spatial_moon_material(moon_surface_material)
 	if not is_canvas_material and not is_spatial_material:
 		if not _warned_unsupported_moon_material:
-			push_warning("DensetsuSkySystem3D: unsupported moon_surface_material type. Use CanvasItem or Spatial material.")
+			push_warning("SkyWeatherSystem3D: unsupported moon_surface_material type. Use CanvasItem or Spatial material.")
 			_warned_unsupported_moon_material = true
 		return
 
@@ -1808,7 +1808,7 @@ func _build_debug_ui() -> void:
 	_debug_ui_panel.add_child(root_vbox)
 
 	var title: Label = Label.new()
-	title.text = "Densetsu Sky Debug"
+	title.text = "Sky Debug"
 	root_vbox.add_child(title)
 
 	var clock_row: HBoxContainer = HBoxContainer.new()
@@ -2656,12 +2656,12 @@ func _ensure_sky_material() -> void:
 	if _sky_shader == null:
 		_sky_shader = load(SKY_SHADER_PATH) as Shader
 		if _sky_shader == null and not _warned_missing_shader:
-			push_warning("DensetsuSkySystem3D: missing sky shader: " + SKY_SHADER_PATH)
+			push_warning("SkyWeatherSystem3D: missing sky shader: " + SKY_SHADER_PATH)
 			_warned_missing_shader = true
 			return
 	if not _is_sky_shader_usable(_sky_shader):
 		if not _warned_invalid_shader:
-			push_warning("DensetsuSkySystem3D: shader failed validation/compile: " + SKY_SHADER_PATH)
+			push_warning("SkyWeatherSystem3D: shader failed validation/compile: " + SKY_SHADER_PATH)
 			_warned_invalid_shader = true
 		_apply_fallback_sky()
 		return
@@ -3369,7 +3369,7 @@ func _get_effective_synced_shadow_distance() -> float:
 	if requested_distance < floor_distance:
 		if not _warned_shadow_distance_floor_applied:
 			push_warning(
-				"DensetsuSkySystem3D: synced_light_shadow_max_distance is below safety floor; clamping to %.1f."
+				"SkyWeatherSystem3D: synced_light_shadow_max_distance is below safety floor; clamping to %.1f."
 				% floor_distance
 			)
 			_warned_shadow_distance_floor_applied = true

@@ -1,9 +1,9 @@
 @tool
 extends Resource
-class_name DensetsuWeatherGroup
+class_name WeatherGroup
 
 @export_group("Identity")
-## Stable ID matched against DensetsuWeatherCondition.weather_group_id.
+## Stable ID matched against WeatherCondition.weather_group_id.
 @export var group_id: String = "default"
 ## Optional display label for tools/UI.
 @export var display_name: String = "Default"

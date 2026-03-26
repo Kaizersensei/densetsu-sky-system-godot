@@ -1,6 +1,6 @@
 ; Engine configuration file.
 config_version=5
 [application]
-config/name="Densetsu Sky System"
+config/name="Sky System Demo"
 run/main_scene="res://demo/sky_system_demo.tscn"
 config/features=PackedStringArray("4.6")
