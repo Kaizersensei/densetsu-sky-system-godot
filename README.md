@@ -25,8 +25,6 @@ Standalone Godot 4.6 sky and weather system for general-purpose use.
 
 ## Requirements
 - Godot `4.6`
-- No `Terrain3D` dependency
-- No gameplay framework dependency
 
 ## Quick Start
 1. Open the repo as a Godot project.
@@ -49,4 +47,4 @@ Standalone Godot 4.6 sky and weather system for general-purpose use.
 - The example project keeps assets local and simple on purpose. It is meant as a reusable base, not a finished vertical slice.
 
 ## Scope
-This repository is intended to provide the reusable sky and weather stack only. It does not include private gameplay code, terrain systems, or project-specific scene dependencies.
+This repository is intended to provide the reusable sky and weather stack only. It does not include gameplay code or project-specific scene dependencies.
